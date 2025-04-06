@@ -28,7 +28,7 @@ jobs:
         cd backend
         python -m venv venv
         source venv/bin/activate
-        pip install -r backend/requirements.txt
+        pip install -r requirements.txt
 
     - name: Package Lambda function
       run: |
