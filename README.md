@@ -4,7 +4,8 @@ A task management application built with **React** on the frontend, **Material U
 
 ## 🚀 Live Demo
 
-🔗 [View Live App](https://dev.d2c5zqiv6i5agj.amplifyapp.com/) 
+🔗 [View Live App](https://main.dc8x0h8y0gxom.amplifyapp.com/) 
+🔗 [API Documentation](https://elizabthpazp.github.io/task-manager-backend/) 
 
 ## 🛠️ Tech Stack
 
