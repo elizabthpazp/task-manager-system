@@ -37,6 +37,7 @@ jobs:
 
     - name: Upload to S3
       run: |
+          cd backend
           aws s3 cp task-manager-backend.zip s3://amplify-taskmanager-dev-e5ae4-deployment/task-manager-backend.zip
  
     - name: Update Lambda function
