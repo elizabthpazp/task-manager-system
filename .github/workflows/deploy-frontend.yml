@@ -13,17 +13,26 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: List directories
+      run: |
+        ls -la  
+
     - name: Navigate to frontend folder
-      run: cd frontend
+      run: |
+        cd frontend 
+        ls -la 
 
     - name: Install dependencies
       run: |
-        frontend/npm install
+        cd frontend  
+        npm install  
 
     - name: Build project
       run: |
-        frontend/npm run build
+        cd frontend
+        npm run build 
 
     - name: Deploy to AWS Amplify
       run: |
-        amplify publish
+        cd frontend 
+        amplify publish  # Desplegar el proyecto a AWS Amplify
