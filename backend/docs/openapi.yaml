@@ -1,0 +1,215 @@
+openapi: 3.0.0
+info:
+  title: Task Manager API
+  version: 1.0.0
+  description: RESTful API for managing tasks using AWS Lambda and MongoDB.
+servers:
+  - url: https://mm4adbj7u7.execute-api.us-east-2.amazonaws.com/default/task-manager
+    description: Production server
+
+paths:
+  /login:
+    post:
+      summary: User login
+      description: Logs a user in and returns a JWT token for authentication.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Login successful, token returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '400':
+          description: Invalid email or password
+        '500':
+          description: Internal Server Error
+
+  /register:
+    post:
+      summary: User registration
+      description: Registers a new user and returns a JWT token for authentication.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: User registered successfully, token returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '400':
+          description: Invalid request data (e.g., email already registered)
+        '500':
+          description: Internal Server Error
+
+  /:
+    get:
+      summary: Get all tasks
+      description: Fetches all tasks stored in the MongoDB database.
+      responses:
+        '200':
+          description: A list of tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+        '500':
+          description: Internal Server Error
+      security:
+        - BearerAuth: []
+  
+    post:
+      summary: Create a new task
+      description: Adds a new task to the MongoDB database.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewTask'
+      responses:
+        '201':
+          description: Task created successfully
+        '400':
+          description: Invalid request data
+        '500':
+          description: Internal Server Error
+      security:
+        - BearerAuth: []
+
+    put:
+      summary: Update a task's status
+      description: Updates the status of an existing task by ID.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTask'
+      responses:
+        '200':
+          description: Task updated successfully
+        '404':
+          description: Task not found
+        '500':
+          description: Internal Server Error
+      security:
+        - BearerAuth: []
+
+  /delete:
+    post:
+      summary: Delete a task
+      description: Deletes a task by its ID (passed in the request body).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteTask'
+      responses:
+        '200':
+          description: Task deleted successfully
+        '404':
+          description: Task not found
+        '500':
+          description: Internal Server Error
+      security:
+        - BearerAuth: []
+
+components:
+  schemas:
+    Task:
+      type: object
+      properties:
+        _id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum: [Pending, Completed]
+
+    NewTask:
+      type: object
+      required:
+        - title
+        - description
+        - status
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum: [Pending, Completed]
+
+    UpdateTask:
+      type: object
+      required:
+        - _id
+        - status
+      properties:
+        _id:
+          type: string
+        status:
+          type: string
+          enum: [Pending, Completed]
+
+    DeleteTask:
+      type: object
+      required:
+        - _id
+      properties:
+        _id:
+          type: string
+
+    RegisterRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+
+    LoginRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+
+    LoginResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        token:
+          type: string
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
