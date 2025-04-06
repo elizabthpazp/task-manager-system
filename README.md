@@ -1,6 +1,6 @@
 # 📝 Task Manager
 
-A task management application built with **React** on the frontend, **Material UI** for styling, and **AWS Lambda** + **MongoDB** on the backend. This application allows you to create, edit, delete, and organize tasks efficiently, perfect for staying productive and focused on your daily goals.
+A task management application built with **React** on the frontend, **Material UI** for styling, **AWS Amplify** for deploy, **AWS Lambda** + **MongoDB** on the backend. This application allows you to create, edit, delete, and organize tasks efficiently, perfect for staying productive and focused on your daily goals.
 
 ## 🚀 Live Demo
 

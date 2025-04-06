@@ -41,9 +41,4 @@ jobs:
     - name: Build project
       run: |
         cd frontend
-        npm run build 
-
-    - name: Deploy frontend to Amplify
-      run: |
-        cd frontend 
-        amplify publish --yes 
+        npm run build
