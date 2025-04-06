@@ -1,0 +1,42 @@
+name: Deploy to AWS Lambda
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up AWS CLI
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-2
+
+    - name: Install dependencies
+      run: |
+        python -m venv venv
+        source venv/bin/activate
+        pip install -r requirements.txt
+
+    - name: Package Lambda function
+      run: |
+          zip -r task-manager-backend.zip .  
+
+    - name: Upload to S3
+      run: |
+          aws s3 cp task-manager-backend.zip s3://amplify-taskmanager-dev-e5ae4-deployment/task-manager-backend.zip
+ 
+    - name: Update Lambda function
+      run: |
+          aws lambda update-function-code \
+            --function-name task-manager \
+            --s3-bucket amplify-taskmanager-dev-e5ae4-deployment \
+            --s3-key task-manager-backend.zip
