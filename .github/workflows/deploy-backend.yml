@@ -25,12 +25,14 @@ jobs:
 
     - name: Install dependencies
       run: |
+        cd backend
         python -m venv venv
         source venv/bin/activate
         pip install -r backend/requirements.txt
 
     - name: Package Lambda function
       run: |
+          cd backend
           zip -r task-manager-backend.zip .  
 
     - name: Upload to S3
