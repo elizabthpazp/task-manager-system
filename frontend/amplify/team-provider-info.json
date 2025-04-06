@@ -10,6 +10,14 @@
       "StackName": "amplify-taskmanager-dev-ae6a1",
       "StackId": "arn:aws:cloudformation:us-east-2:638258043508:stack/amplify-taskmanager-dev-ae6a1/3da3e990-1327-11f0-b526-0649d0543be7",
       "AmplifyAppId": "dsx714q3qjhdx"
+    },
+    "categories": {
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "dsx714q3qjhdx",
+          "type": "cicd"
+        }
+      }
     }
   }
 }
