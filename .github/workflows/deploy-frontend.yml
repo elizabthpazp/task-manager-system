@@ -13,6 +13,17 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Set up AWS CLI
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-2
+
+    - name: Install Amplify CLI
+      run: |
+        npm install -g @aws-amplify/cli
+
     - name: List directories
       run: |
         ls -la  
@@ -32,7 +43,7 @@ jobs:
         cd frontend
         npm run build 
 
-    - name: Deploy to AWS Amplify
+    - name: Deploy frontend to Amplify
       run: |
         cd frontend 
-        amplify publish  # Desplegar el proyecto a AWS Amplify
+        amplify publish --yes 
